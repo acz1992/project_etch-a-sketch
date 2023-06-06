@@ -8,28 +8,21 @@ const gridContainer = document.querySelector(".gridContainer");
 const newGridButton = document.querySelector("#newGridButton");
 
 newGridButton.addEventListener("click", () => {
+	clearGrid();
 	const gridSize = prompt("Enter a grid size smaller than 100 cells");
+
+	const validatedSize = verifyGridSize(gridSize);
+	if (validatedSize) {
+		// Retrieve the gridCells array from gridCreation function
+		const gridCells = gridCreation(validatedSize);
+		// Use the gridCells outside of the function
+		gridCells.forEach((gridCell) => {
+			gridCell.addEventListener("mouseover", changeColour);
+		});
+	} else {
+		alert("Invalid. Please enter a number that is smaller than 100 cells");
+	}
 });
-
-// Calculate size of each cell based on given container dimensions
-const gridContainerWidth = gridContainer.offsetWidth;
-const gridContainerHeight = gridContainer.offsetHeight;
-//Generate grid size using user input
-const cellSize = Math.floor(
-	Math.min(gridContainerWidth, gridContainerHeight) / gridSize
-);
-
-const validatedSize = verifyGridSize(gridSize);
-if (validatedSize) {
-	// Retrieve the gridCells array from gridCreation function
-	const gridCells = gridCreation(validatedSize);
-	// Use the gridCells outside of the function
-	gridCells.forEach((gridCell) => {
-		gridCell.addEventListener("mouseover", changeColour);
-	});
-} else {
-	alert("Invalid. Please enter a number that is smaller than 100 cells");
-}
 
 //Verifies whether user input is valid
 function verifyGridSize(gridSize) {
@@ -47,6 +40,13 @@ function gridCreation(gridSize) {
 	gridContainer.style.flexWrap = "wrap";
 	// Create empty Array of cells
 	const gridCells = [];
+	// Calculate size of each cell based on given container dimensions and
+	// generate grid size using user input
+	const cellSize = Math.floor(
+		Math.min(gridContainer.offsetWidth, gridContainer.offsetHeight) /
+			gridSize
+	);
+
 	// Generate a grid using nested for loops
 	for (let row = 0; row < gridSize; row++) {
 		for (let col = 0; col < gridSize; col++) {
@@ -65,4 +65,10 @@ function gridCreation(gridSize) {
 function changeColour(e) {
 	const cell = e.target;
 	cell.style.backgroundColor = "blue";
+}
+
+function clearGrid() {
+	while (gridContainer.firstChild) {
+		gridContainer.removeChild(gridContainer.firstChild);
+	}
 }
