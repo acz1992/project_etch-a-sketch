@@ -7,7 +7,9 @@
 const gridContainer = document.querySelector(".gridContainer");
 const newGridButton = document.querySelector("#newGridButton");
 
-newGridButton.addEventListener("click", () => {
+newGridButton.addEventListener("click", handleNewGridButtonClick);
+
+function handleNewGridButtonClick() {
 	clearGrid();
 	const gridSize = prompt("Enter a grid size smaller than 100 cells");
 
@@ -20,9 +22,9 @@ newGridButton.addEventListener("click", () => {
 			gridCell.addEventListener("mouseover", changeColour);
 		});
 	} else {
-		alert("Invalid. Please enter a number that is smaller than 100 cells");
+		handleNewGridButtonClick();
 	}
-});
+}
 
 //Verifies whether user input is valid
 function verifyGridSize(gridSize) {
