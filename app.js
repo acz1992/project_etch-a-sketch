@@ -5,7 +5,11 @@
 // 2) Instead of just changing the color of a square from black to white (for example), have each pass through with the mouse change it to a completely random RGB value. Then try having each pass just add another 10% of black to it so that only after 10 passes is the square completely black.
 
 const gridContainer = document.querySelector(".gridContainer");
-const gridSize = prompt("Enter a grid size smaller than 100 cells");
+const newGridButton = document.querySelector("#newGridButton");
+
+newGridButton.addEventListener("click", () => {
+	const gridSize = prompt("Enter a grid size smaller than 100 cells");
+});
 
 // Calculate size of each cell based on given container dimensions
 const gridContainerWidth = gridContainer.offsetWidth;
