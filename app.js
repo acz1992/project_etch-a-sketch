@@ -15,7 +15,7 @@ function handleNewGridButtonClick() {
 		const gridCells = gridCreation(validatedSize);
 		// Use the gridCells outside of the function
 		gridCells.forEach((gridCell) => {
-			gridCell.addEventListener("mouseover", changeColour);
+			gridCell.addEventListener("mouseover", hoverEffect);
 		});
 	} else {
 		handleNewGridButtonClick();
@@ -60,13 +60,22 @@ function gridCreation(gridSize) {
 	return gridCells;
 }
 
-function changeColour(e) {
+function hoverEffect(e) {
 	const cell = e.target;
-	cell.style.backgroundColor = "blue";
+	cell.style.backgroundColor = generateRandomColour();
 }
 
+// Clears grid
 function clearGrid() {
 	while (gridContainer.firstChild) {
 		gridContainer.removeChild(gridContainer.firstChild);
 	}
+}
+
+// function that generates random colour
+function generateRandomColour() {
+	let r = Math.floor(Math.random() * 256);
+	let g = Math.floor(Math.random() * 256);
+	let b = Math.floor(Math.random() * 256);
+	return "rgb(" + r + "," + g + "," + b + ")";
 }
