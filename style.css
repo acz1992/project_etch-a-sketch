@@ -19,6 +19,10 @@ body {
 	padding: 5px 20px;
 	margin: 10px 0 0;
 }
+#clearGridButton {
+	padding: 5px 40px;
+	margin: 10px 0 0;
+}
 
 /* .gridButtonContainer {
 	display: flex;
