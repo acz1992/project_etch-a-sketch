@@ -9,8 +9,14 @@ const normalModeButton = document.querySelector("#normalModeButton");
 const rainbowModeButton = document.querySelector("#rainbowModeButton");
 const shadeModeButton = document.querySelector("#shadeModeButton");
 
-// Add Event Listener to "Create New Grid" button
+/* Add Event Listeners */
+
+// 1) Add Event Listener to "Create New Grid" button
 newGridButton.addEventListener("click", handleNewGridButtonClick);
+// 2) Add Event Listeners to Buttons
+normalModeButton.addEventListener("click", () => normalMode());
+rainbowModeButton.addEventListener("click", () => rainbowMode());
+shadeModeButton.addEventListener("click", () => shadeMode());
 
 // Function from above button
 function handleNewGridButtonClick() {
@@ -26,7 +32,7 @@ function handleNewGridButtonClick() {
 		// 5) Use the gridCells outside of the function
 		gridCells.forEach((gridCell) => {
 			// 6) To attach Event Listeners
-			gridCell.addEventListener("mouseover", normalMode);
+			gridCell.addEventListener("mouseover", rainbowMode);
 		});
 	} else {
 		handleNewGridButtonClick();
@@ -72,12 +78,14 @@ function gridCreation(gridSize) {
 	return gridCells;
 }
 
+/* The different colour modes */
+
 function normalMode(e) {
 	const cell = e.target;
 	cell.style.backgroundColor = "black";
 }
 
-function shadeMode() {
+function shadeMode(e) {
 	const cell = e.target;
 	cell.style.opacity = "0.1";
 	if ((cell.style.opacity = "0.1")) {
@@ -89,17 +97,17 @@ function shadeMode() {
 	}
 }
 
+function rainbowMode(e) {
+	const cell = e.target;
+	let r = Math.floor(Math.random() * 256);
+	let g = Math.floor(Math.random() * 256);
+	let b = Math.floor(Math.random() * 256);
+	cell.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+}
+
 // Clears grid
 function clearGrid() {
 	while (gridContainer.firstChild) {
 		gridContainer.removeChild(gridContainer.firstChild);
 	}
-}
-
-// function that generates random colour
-function generateRandomColour() {
-	let r = Math.floor(Math.random() * 256);
-	let g = Math.floor(Math.random() * 256);
-	let b = Math.floor(Math.random() * 256);
-	return "rgb(" + r + "," + g + "," + b + ")";
 }
