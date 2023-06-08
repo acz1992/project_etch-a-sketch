@@ -1,21 +1,32 @@
 // Finally, create different buttons that toggle the three different modes (Normal, Random and Opaque)
 
+/* The Set Up */
+// Grab HTML elements
 const gridContainer = document.querySelector(".gridContainer");
 const newGridButton = document.querySelector("#newGridButton");
 
+const normalModeButton = document.querySelector("#normalModeButton");
+const rainbowModeButton = document.querySelector("#rainbowModeButton");
+const shadeModeButton = document.querySelector("#shadeModeButton");
+
+// Add Event Listener to "Create New Grid" button
 newGridButton.addEventListener("click", handleNewGridButtonClick);
 
+// Function from above button
 function handleNewGridButtonClick() {
+	// 1) Clears existing grid
 	clearGrid();
 	const gridSize = prompt("Enter a grid size smaller than 100 cells");
-
+	// 2) Gets user input for Grid Size, validates input.
 	const validatedSize = verifyGridSize(gridSize);
+	// 3) If gridSize returned from function....
 	if (validatedSize) {
-		// Retrieve the gridCells array from gridCreation function
+		// 4) than retrieve gridCells array from gridCreation function
 		const gridCells = gridCreation(validatedSize);
-		// Use the gridCells outside of the function
+		// 5) Use the gridCells outside of the function
 		gridCells.forEach((gridCell) => {
-			gridCell.addEventListener("mouseover", hoverEffect);
+			// 6) To attach Event Listeners
+			gridCell.addEventListener("mouseover", normalMode);
 		});
 	} else {
 		handleNewGridButtonClick();
@@ -24,7 +35,9 @@ function handleNewGridButtonClick() {
 
 //Verifies whether user input is valid
 function verifyGridSize(gridSize) {
+	// 1) If user input of gridSize returns NaN/ mroe than 100/ less than 0
 	if (isNaN(gridSize) || gridSize > 100 || gridSize < 1) {
+		// 2) Null returned/ instead of gridSize - causing recursion in handleNewGridButtonClick() function
 		return null;
 	} else {
 		return gridSize;
@@ -33,19 +46,18 @@ function verifyGridSize(gridSize) {
 
 // Generates grid
 function gridCreation(gridSize) {
-	// Set grid layout on container using Flex
+	// 1) Set Grid layout on container using Flex
 	gridContainer.style.display = "flex";
 	gridContainer.style.flexWrap = "wrap";
-	// Create empty Array of cells
+	// 2) Create empty Array of cells
 	const gridCells = [];
-	// Calculate size of each cell based on given container dimensions and
-	// generate grid size using user input
+	// 3) Calculate size of each cell based on given container dimensions and generate grid size using user input
 	const cellSize = Math.floor(
 		Math.min(gridContainer.offsetWidth, gridContainer.offsetHeight) /
 			gridSize
 	);
 
-	// Generate a grid using nested for loops
+	// 4) Generate a grid using nested for loops
 	for (let row = 0; row < gridSize; row++) {
 		for (let col = 0; col < gridSize; col++) {
 			const gridCell = document.createElement("div");
@@ -56,19 +68,18 @@ function gridCreation(gridSize) {
 			gridCells.push(gridCell);
 		}
 	}
-	// Return array so it can be used outside of the function
+	// 5) Return array so it can be used outside of the function
 	return gridCells;
 }
 
-function hoverEffect(e) {
+function normalMode(e) {
 	const cell = e.target;
 	cell.style.backgroundColor = "black";
-	cell.style.opacity = "0.1";
 }
 
-function opaqueMode() {
+function shadeMode() {
 	const cell = e.target;
-
+	cell.style.opacity = "0.1";
 	if ((cell.style.opacity = "0.1")) {
 		cell.addEventListener("click", () => {
 			const currentOpacity = parseFloat(cell.style.opacity);
@@ -86,9 +97,9 @@ function clearGrid() {
 }
 
 // function that generates random colour
-/* function generateRandomColour() {
+function generateRandomColour() {
 	let r = Math.floor(Math.random() * 256);
 	let g = Math.floor(Math.random() * 256);
 	let b = Math.floor(Math.random() * 256);
 	return "rgb(" + r + "," + g + "," + b + ")";
-} */
+}
