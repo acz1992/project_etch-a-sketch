@@ -49,7 +49,7 @@ function setMode(mode) {
 // Function from above button
 function handleNewGridButtonClick() {
 	// 1) Clears existing grid
-	clearGrid();
+	removeGrid();
 	const gridSize = prompt("Enter a grid size smaller than 100 cells");
 	// 2) Gets user input for Grid Size, validates input.
 	const validatedSize = verifyGridSize(gridSize);
@@ -111,17 +111,27 @@ function gridCreation(gridSize) {
 function normalMode(e) {
 	const cell = e.target;
 	cell.style.backgroundColor = "black";
+	const filledCell = Array.from(gridContainer.children).find(
+		(child) => child.style.backgroundColor !== ""
+	);
+	if (filledCell) {
+		showClearGridButton();
+	}
 }
 
 function shadeMode(e) {
 	const cell = e.target;
 	cell.style.opacity = "0.1";
-	if ((cell.style.opacity = "0.1")) {
-		cell.addEventListener("click", () => {
-			const currentOpacity = parseFloat(cell.style.opacity);
-			const newOpacity = currentOpacity + 0.1;
-			cell.style.opacity = newOpacity.toString();
-		});
+	cell.addEventListener("click", () => {
+		const currentOpacity = parseFloat(cell.style.opacity);
+		const newOpacity = currentOpacity + 0.1;
+		cell.style.opacity = newOpacity.toString();
+	});
+	const filledCell = Array.from(gridContainer.children).find(
+		(child) => child.style.backgroundColor !== ""
+	);
+	if (filledCell) {
+		showClearGridButton();
 	}
 }
 
@@ -131,21 +141,46 @@ function rainbowMode(e) {
 	let g = Math.floor(Math.random() * 256);
 	let b = Math.floor(Math.random() * 256);
 	cell.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+	const filledCell = Array.from(gridContainer.children).find(
+		(child) => child.style.backgroundColor !== ""
+	);
+	if (filledCell) {
+		showClearGridButton();
+	}
 }
 
 // Clears grid
-function clearGrid() {
+function removeGrid() {
 	while (gridContainer.firstChild) {
 		gridContainer.removeChild(gridContainer.firstChild);
 	}
 }
 
-// Use for bringing out clearGrid Button
+function clearGrid() {
+	const gridCells = Array.from(gridContainer.children);
+	gridCells.forEach((cell) => {
+		if (cell.style.backgroundColor !== "") {
+			cell.style.backgroundColor = "";
+			cell.style.opacity = "";
+		}
+	});
+	hideClearGridButton();
+}
 
-/* if (gridcell === backgroundColor) {
-	const clearGridButton = document.createElement("button");
-	clearGridButton.setAttribute("id", "clearGridButton");
-	clearGridButton.textContent = "Clear Grid";
-	clearGridButton.addEventListener("click", clearGrid);
-	gridButtonContainer.appendChild(clearGridButton);
-} */
+function showClearGridButton() {
+	let clearGridButton = document.querySelector("#clearGridButton");
+	if (!clearGridButton) {
+		clearGridButton = document.createElement("button");
+		clearGridButton.setAttribute("id", "clearGridButton");
+		clearGridButton.textContent = "Clear Grid";
+		clearGridButton.addEventListener("click", clearGrid);
+		gridButtonContainer.appendChild(clearGridButton);
+	}
+}
+
+function hideClearGridButton() {
+	const clearGridButton = document.querySelector("#clearGridButton");
+	if (clearGridButton) {
+		clearGridButton.remove();
+	}
+}
