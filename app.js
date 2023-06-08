@@ -3,20 +3,48 @@
 /* The Set Up */
 // Grab HTML elements
 const gridContainer = document.querySelector(".gridContainer");
+const gridButtonContainer = document.querySelector(".gridButtonContainer");
 const newGridButton = document.querySelector("#newGridButton");
 
 const normalModeButton = document.querySelector("#normalModeButton");
 const rainbowModeButton = document.querySelector("#rainbowModeButton");
 const shadeModeButton = document.querySelector("#shadeModeButton");
 
-/* Add Event Listeners */
+// Set DEFAULT mode
+let currentMode = "normal";
 
+/* Add Event Listeners */
 // 1) Add Event Listener to "Create New Grid" button
 newGridButton.addEventListener("click", handleNewGridButtonClick);
 // 2) Add Event Listeners to Buttons
-normalModeButton.addEventListener("click", () => normalMode());
-rainbowModeButton.addEventListener("click", () => rainbowMode());
-shadeModeButton.addEventListener("click", () => shadeMode());
+normalModeButton.addEventListener("click", () => setMode("normal"));
+rainbowModeButton.addEventListener("click", () => setMode("rainbow"));
+shadeModeButton.addEventListener("click", () => setMode("shade"));
+
+// Call setMode function, using DEFAULT mode
+setMode(currentMode);
+
+// Function that sets mode based on string
+function setMode(mode) {
+	// 1) remove all existing eventListeners
+	gridContainer.removeEventListener("mouseover", normalMode);
+	gridContainer.removeEventListener("mouseover", rainbowMode);
+	gridContainer.removeEventListener("mouseover", shadeMode);
+	// 2) sets new eventListener based on clicked mode
+	switch (mode) {
+		case "normal":
+			gridContainer.addEventListener("mouseover", normalMode);
+			break;
+		case "rainbow":
+			gridContainer.addEventListener("mouseover", rainbowMode);
+			break;
+		case "shade":
+			gridContainer.addEventListener("mouseover", shadeMode);
+			break;
+		// NOTE - didnt set default like Chat GPT suggested as I think its covered above
+	}
+	currentMode = mode;
+}
 
 // Function from above button
 function handleNewGridButtonClick() {
@@ -32,7 +60,7 @@ function handleNewGridButtonClick() {
 		// 5) Use the gridCells outside of the function
 		gridCells.forEach((gridCell) => {
 			// 6) To attach Event Listeners
-			gridCell.addEventListener("mouseover", rainbowMode);
+			gridCell.addEventListener("mouseover", normalMode);
 		});
 	} else {
 		handleNewGridButtonClick();
@@ -111,3 +139,13 @@ function clearGrid() {
 		gridContainer.removeChild(gridContainer.firstChild);
 	}
 }
+
+// Use for bringing out clearGrid Button
+
+/* if (gridcell === backgroundColor) {
+	const clearGridButton = document.createElement("button");
+	clearGridButton.setAttribute("id", "clearGridButton");
+	clearGridButton.textContent = "Clear Grid";
+	clearGridButton.addEventListener("click", clearGrid);
+	gridButtonContainer.appendChild(clearGridButton);
+} */
