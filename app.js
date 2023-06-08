@@ -1,5 +1,3 @@
-// Finally, create different buttons that toggle the three different modes (Normal, Random and Opaque)
-
 /* The Set Up */
 // Grab HTML elements
 const gridContainer = document.querySelector(".gridContainer");
@@ -110,6 +108,7 @@ function gridCreation(gridSize) {
 
 function normalMode(e) {
 	const cell = e.target;
+	cell.style.opacity = "1";
 	cell.style.backgroundColor = "black";
 	const filledCell = Array.from(gridContainer.children).find(
 		(child) => child.style.backgroundColor !== ""
@@ -137,6 +136,7 @@ function shadeMode(e) {
 
 function rainbowMode(e) {
 	const cell = e.target;
+	cell.style.opacity = "1";
 	let r = Math.floor(Math.random() * 256);
 	let g = Math.floor(Math.random() * 256);
 	let b = Math.floor(Math.random() * 256);
