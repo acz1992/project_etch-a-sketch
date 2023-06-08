@@ -1,4 +1,4 @@
-// 1) Instead of just changing the color of a square from black to white (for example), have each pass through with the mouse change it to a completely random RGB value. Then try having each pass just add another 10% of black to it so that only after 10 passes is the square completely black.
+// Finally, create different buttons that toggle the three different modes (Normal, Random and Opaque)
 
 const gridContainer = document.querySelector(".gridContainer");
 const newGridButton = document.querySelector("#newGridButton");
@@ -15,7 +15,7 @@ function handleNewGridButtonClick() {
 		const gridCells = gridCreation(validatedSize);
 		// Use the gridCells outside of the function
 		gridCells.forEach((gridCell) => {
-			gridCell.addEventListener("mouseover", changeColour);
+			gridCell.addEventListener("mouseover", hoverEffect);
 		});
 	} else {
 		handleNewGridButtonClick();
@@ -60,13 +60,35 @@ function gridCreation(gridSize) {
 	return gridCells;
 }
 
-function changeColour(e) {
+function hoverEffect(e) {
 	const cell = e.target;
-	cell.style.backgroundColor = "blue";
+	cell.style.backgroundColor = "black";
+	cell.style.opacity = "0.1";
 }
 
+function opaqueMode() {
+	const cell = e.target;
+
+	if ((cell.style.opacity = "0.1")) {
+		cell.addEventListener("click", () => {
+			const currentOpacity = parseFloat(cell.style.opacity);
+			const newOpacity = currentOpacity + 0.1;
+			cell.style.opacity = newOpacity.toString();
+		});
+	}
+}
+
+// Clears grid
 function clearGrid() {
 	while (gridContainer.firstChild) {
 		gridContainer.removeChild(gridContainer.firstChild);
 	}
 }
+
+// function that generates random colour
+/* function generateRandomColour() {
+	let r = Math.floor(Math.random() * 256);
+	let g = Math.floor(Math.random() * 256);
+	let b = Math.floor(Math.random() * 256);
+	return "rgb(" + r + "," + g + "," + b + ")";
+} */
